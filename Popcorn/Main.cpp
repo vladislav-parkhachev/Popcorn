@@ -26,6 +26,9 @@ enum EBrick_Type
    EBT_Blue
 };
 
+HPEN Brick_Red_Pen, Brick_Blue_Pen;
+HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+
 char Level_01[14][12] =
 {
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -113,6 +116,17 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 //---------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------
+void Init()
+{// Game settings at startup
+   Brick_Red_Pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
+   Brick_Red_Brush = CreateSolidBrush(RGB(255, 85, 255));
+
+   Brick_Blue_Pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
+   Brick_Blue_Brush = CreateSolidBrush(RGB(85, 255, 255));
+}
+//---------------------------------------------------------------------------------------------------
 //
 //   FUNCTION: InitInstance(HINSTANCE, int)
 //
@@ -127,6 +141,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
+
+   Init();
 
    RECT window_rect;
    window_rect.left = 0; // x left point
@@ -147,6 +163,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    return TRUE;
 }
+//---------------------------------------------------------------------------------------------------
 void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
 {// brick output to the screen
 
@@ -158,12 +175,12 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
    case EBT_None: 
       return;
    case EBT_Red:
-      pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
-      brush = CreateSolidBrush(RGB(255, 85, 255));
+      pen = Brick_Red_Pen;
+      brush = Brick_Red_Brush;
       break;
    case EBT_Blue: 
-      pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
-      brush = CreateSolidBrush(RGB(85, 255, 255));
+      pen = Brick_Blue_Pen;
+      brush = Brick_Blue_Brush;
       break;
    default:
       return;
@@ -175,6 +192,7 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
    RoundRect(hdc, x * Global_Scale, y * Global_Scale, 
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
+//---------------------------------------------------------------------------------------------------
 void Drow_Level(HDC hdc)
 {// Output of all bricks of the level
    int i, j;
