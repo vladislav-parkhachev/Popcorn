@@ -140,21 +140,26 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    return TRUE;
 }
-void Drow_Brick(HDC hdc, int x, int y, bool is_blue)
+void Drow_Brick(HDC hdc, int x, int y, char brick_type)
 {// brick output to the screen
 
    HPEN pen;
    HBRUSH brush;
 
-   if (is_blue)
+   switch (brick_type)
    {
-      pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
-      brush = CreateSolidBrush(RGB(85, 255, 255));
-   }
-   else
-   {
+   case 0: 
+      return;
+   case 1:
       pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
       brush = CreateSolidBrush(RGB(255, 85, 255));
+      break;
+   case 2: 
+      pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
+      brush = CreateSolidBrush(RGB(85, 255, 255));
+      break;
+   default:
+      return;
    }
 
    SelectObject(hdc, pen);
@@ -169,7 +174,7 @@ void Drow_Frame(HDC hdc)
 
    for (i = 0; i < 14; i++)
       for (j = 0; j < 12; j++)
-         Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, true);
+         Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, Level_01[i][j]);
 }
 //---------------------------------------------------------------------------------------------------
 //
