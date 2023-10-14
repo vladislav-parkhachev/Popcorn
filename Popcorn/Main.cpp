@@ -175,14 +175,18 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
    RoundRect(hdc, x * Global_Scale, y * Global_Scale, 
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
-//---------------------------------------------------------------------------------------------------
-void Drow_Frame(HDC hdc)
-{// Rendering the game screen
+void Drow_Level(HDC hdc)
+{// Output of all bricks of the level
    int i, j;
 
    for (i = 0; i < 14; i++)
       for (j = 0; j < 12; j++)
          Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, (EBrick_Type)Level_01[i][j]);
+}
+//---------------------------------------------------------------------------------------------------
+void Drow_Frame(HDC hdc)
+{// Rendering the game screen
+   Drow_Level(hdc);
 }
 //---------------------------------------------------------------------------------------------------
 //
