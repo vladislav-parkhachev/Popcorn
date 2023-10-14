@@ -14,6 +14,10 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 const int Global_Scale = 3;
 const int Brick_Width = 15;
 const int Brick_Height = 7;
+const int Cell_Width = 16;
+const int Cell_Height = 8;
+const int Level_X_Offset = 8;
+const int Level_Y_Offset = 6;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -144,8 +148,11 @@ void Drow_Brick(HDC hdc, int x, int y, bool is_blue)
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc)
 {// Rendering the game screen
-   Drow_Brick(hdc, 8, 6, false);
-   Drow_Brick(hdc, 8, 6 + 8, true);
+   int i, j;
+
+   for (i = 0; i < 14; i++)
+      for (j = 0; j < 12; j++)
+         Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, true);
 }
 //---------------------------------------------------------------------------------------------------
 //
