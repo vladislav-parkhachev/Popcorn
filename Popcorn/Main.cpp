@@ -172,7 +172,8 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
    SelectObject(hdc, pen);
    SelectObject(hdc, brush);
 
-   Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale);
+   RoundRect(hdc, x * Global_Scale, y * Global_Scale, 
+      (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc)
