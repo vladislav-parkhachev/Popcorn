@@ -19,6 +19,13 @@ const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
 
+enum EBrick_Type
+{
+   EBT_None,
+   EBT_Red,
+   EBT_Blue
+};
+
 char Level_01[14][12] =
 {
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -140,7 +147,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    return TRUE;
 }
-void Drow_Brick(HDC hdc, int x, int y, char brick_type)
+void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
 {// brick output to the screen
 
    HPEN pen;
@@ -148,13 +155,13 @@ void Drow_Brick(HDC hdc, int x, int y, char brick_type)
 
    switch (brick_type)
    {
-   case 0: 
+   case EBT_None: 
       return;
-   case 1:
+   case EBT_Red:
       pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
       brush = CreateSolidBrush(RGB(255, 85, 255));
       break;
-   case 2: 
+   case EBT_Blue: 
       pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
       brush = CreateSolidBrush(RGB(85, 255, 255));
       break;
@@ -174,7 +181,7 @@ void Drow_Frame(HDC hdc)
 
    for (i = 0; i < 14; i++)
       for (j = 0; j < 12; j++)
-         Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, Level_01[i][j]);
+         Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, (EBrick_Type)Level_01[i][j]);
 }
 //---------------------------------------------------------------------------------------------------
 //
