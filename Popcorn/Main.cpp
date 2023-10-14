@@ -11,6 +11,10 @@ HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
+const int Global_Scale = 3;
+const int Brick_Width = 15;
+const int Brick_Height = 7;
+
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -115,17 +119,33 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    return TRUE;
 }
-//---------------------------------------------------------------------------------------------------
-void Drow_Frame(HDC hdc)
-{// Rendering the game screen
-   HPEN pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
-   HBRUSH brush = CreateSolidBrush(RGB(255, 85, 255));
+void Drow_Brick(HDC hdc, int x, int y, bool is_blue)
+{// brick output to the screen
+
+   HPEN pen;
+   HBRUSH brush;
+
+   if (is_blue)
+   {
+      pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
+      brush = CreateSolidBrush(RGB(85, 255, 255));
+   }
+   else
+   {
+      pen = CreatePen(PS_SOLID, 0, RGB(255, 85, 255));
+      brush = CreateSolidBrush(RGB(255, 85, 255));
+   }
 
    SelectObject(hdc, pen);
    SelectObject(hdc, brush);
 
-   Rectangle(hdc, 8 * 3, 6 * 3, (8 + 15) * 3, (6 + 7) * 3);
-
+   Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale);
+}
+//---------------------------------------------------------------------------------------------------
+void Drow_Frame(HDC hdc)
+{// Rendering the game screen
+   Drow_Brick(hdc, 8, 6, false);
+   Drow_Brick(hdc, 8, 6 + 8, true);
 }
 //---------------------------------------------------------------------------------------------------
 //
