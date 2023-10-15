@@ -87,7 +87,7 @@ void Drow_Frame(HDC hdc)
 {// Rendering the game screen
    //Drow_Level(hdc);
 
-   Ellipse(hdc, 100, 100, 120, 120);
+   Ellipse(hdc, 50 * Global_Scale, 100 * Global_Scale, (50 + 7) * Global_Scale, (100 + 7) * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
 
