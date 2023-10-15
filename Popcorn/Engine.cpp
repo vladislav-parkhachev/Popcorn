@@ -97,6 +97,12 @@ void Drow_Frame(HDC hdc)
 
    Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + circle_size) * Global_Scale, (y + circle_size) * Global_Scale);
    Ellipse(hdc, (x + inner_width) * Global_Scale, y * Global_Scale, (x + circle_size + inner_width) * Global_Scale, (y + circle_size) * Global_Scale);
+
+   SelectObject(hdc, Brick_Blue_Pen);
+   SelectObject(hdc, Brick_Blue_Brush);
+
+   RoundRect(hdc, (x + 4) * Global_Scale, (y + 1) * Global_Scale, 
+      (x + 4 + inner_width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
 
