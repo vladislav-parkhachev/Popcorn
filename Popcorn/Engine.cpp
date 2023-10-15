@@ -7,6 +7,8 @@ const int Cell_Width = 16;
 const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
+const int Circle_Size = 7;
+int Inner_Width = 21;
 
 enum EBrick_Type
 {
@@ -83,26 +85,25 @@ void Drow_Level(HDC hdc)
          Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, (EBrick_Type)Level_01[i][j]);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Frame(HDC hdc)
-{// Rendering the game screen
-   //Drow_Level(hdc);
-
-   int x = 50;
-   int y = 100;
-   int circle_size = 7;
-   int inner_width = 21;
-
+void Drow_Platform(HDC hdc, int x, int y)
+{// Draw a platform
    SelectObject(hdc, Brick_Red_Pen);
    SelectObject(hdc, Brick_Red_Brush);
 
-   Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + circle_size) * Global_Scale, (y + circle_size) * Global_Scale);
-   Ellipse(hdc, (x + inner_width) * Global_Scale, y * Global_Scale, (x + circle_size + inner_width) * Global_Scale, (y + circle_size) * Global_Scale);
+   Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + Circle_Size) * Global_Scale, (y + Circle_Size) * Global_Scale);
+   Ellipse(hdc, (x + Inner_Width) * Global_Scale, y * Global_Scale, (x + Circle_Size + Inner_Width) * Global_Scale, (y + Circle_Size) * Global_Scale);
 
    SelectObject(hdc, Brick_Blue_Pen);
    SelectObject(hdc, Brick_Blue_Brush);
 
    RoundRect(hdc, (x + 4) * Global_Scale, (y + 1) * Global_Scale, 
-      (x + 4 + inner_width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
+      (x + 4 + Inner_Width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
+}
+//---------------------------------------------------------------------------------------------------
+void Drow_Frame(HDC hdc)
+{// Rendering the game screen
+   //Drow_Level(hdc);
+   Drow_Platform(hdc, 50, 100);
 }
 //---------------------------------------------------------------------------------------------------
 
