@@ -87,11 +87,16 @@ void Drow_Frame(HDC hdc)
 {// Rendering the game screen
    //Drow_Level(hdc);
 
+   int x = 50;
+   int y = 100;
+   int circle_size = 7;
+   int inner_width = 21;
+
    SelectObject(hdc, Brick_Red_Pen);
    SelectObject(hdc, Brick_Red_Brush);
 
-   Ellipse(hdc, 50 * Global_Scale, 100 * Global_Scale, (50 + 7) * Global_Scale, (100 + 7) * Global_Scale);
-   Ellipse(hdc, (50 + 21) * Global_Scale, 100 * Global_Scale, (50 + 7 + 21) * Global_Scale, (100 + 7) * Global_Scale);
+   Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + circle_size) * Global_Scale, (y + circle_size) * Global_Scale);
+   Ellipse(hdc, (x + inner_width) * Global_Scale, y * Global_Scale, (x + circle_size + inner_width) * Global_Scale, (y + circle_size) * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
 
