@@ -17,8 +17,8 @@ enum EBrick_Type
    EBT_Blue
 };
 
-HPEN Brick_Red_Pen, Brick_Blue_Pen;
-HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+HPEN Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
 char Level_01[14][12] =
 {
@@ -45,6 +45,12 @@ void Init()
 
    Brick_Blue_Pen = CreatePen(PS_SOLID, 0, RGB(85, 255, 255));
    Brick_Blue_Brush = CreateSolidBrush(RGB(85, 255, 255));
+
+   Platform_Circle_Pen = CreatePen(PS_SOLID, 0, RGB(151, 0, 0));
+   Platform_Circle_Brush = CreateSolidBrush(RGB(151, 0, 0));
+
+   Platform_Inner_Pen = CreatePen(PS_SOLID, 0, RGB(0, 128, 192));
+   Platform_Inner_Brush = CreateSolidBrush(RGB(0, 128, 192));
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
@@ -87,14 +93,14 @@ void Drow_Level(HDC hdc)
 //---------------------------------------------------------------------------------------------------
 void Drow_Platform(HDC hdc, int x, int y)
 {// Draw a platform
-   SelectObject(hdc, Brick_Red_Pen);
-   SelectObject(hdc, Brick_Red_Brush);
+   SelectObject(hdc, Platform_Circle_Pen);
+   SelectObject(hdc, Platform_Circle_Brush);
 
    Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + Circle_Size) * Global_Scale, (y + Circle_Size) * Global_Scale);
    Ellipse(hdc, (x + Inner_Width) * Global_Scale, y * Global_Scale, (x + Circle_Size + Inner_Width) * Global_Scale, (y + Circle_Size) * Global_Scale);
 
-   SelectObject(hdc, Brick_Blue_Pen);
-   SelectObject(hdc, Brick_Blue_Brush);
+   SelectObject(hdc, Platform_Inner_Pen);
+   SelectObject(hdc, Platform_Inner_Brush);
 
    RoundRect(hdc, (x + 4) * Global_Scale, (y + 1) * Global_Scale, 
       (x + 4 + Inner_Width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
@@ -102,7 +108,7 @@ void Drow_Platform(HDC hdc, int x, int y)
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc)
 {// Rendering the game screen
-   //Drow_Level(hdc);
+   Drow_Level(hdc);
    Drow_Platform(hdc, 50, 100);
 }
 //---------------------------------------------------------------------------------------------------
