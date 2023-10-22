@@ -1,4 +1,6 @@
 #include "Engine.h"
+
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 const int Global_Scale = 3;
@@ -84,11 +86,11 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Brick_Letter(HDC hdc)
+void Drow_Brick_Letter(HDC hdc, int rotation_step)
 {// Drawing a falling letter
    XFORM xform, old_xform;
 
-   double rotation_angle = 0.0;
+   double rotation_angle = 2.0 * M_PI / 16 * (double)rotation_step; // Converting a step to a rotation angle
 
    SetGraphicsMode(hdc, GM_ADVANCED);
 
@@ -148,6 +150,9 @@ void Drow_Frame(HDC hdc)
    
    //Drow_Platform(hdc, 50, 100);
 
-   Drow_Brick_Letter(hdc);
+   int i;
+
+   for (i = 0; i < 16; i++)
+      Drow_Brick_Letter(hdc, i);
 }
 //---------------------------------------------------------------------------------------------------
