@@ -103,6 +103,10 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
    GetWorldTransform(hdc, &old_xform);
    SetWorldTransform(hdc, &xform); 
 
+   SelectObject(hdc, Brick_Red_Pen);
+   SelectObject(hdc, Brick_Red_Brush);
+   Rectangle(hdc, 0, -brick_half_height - Global_Scale, Brick_Width * Global_Scale, brick_half_height - Global_Scale);
+
    SelectObject(hdc, Brick_Blue_Pen);
    SelectObject(hdc, Brick_Blue_Brush);
    Rectangle(hdc, 0, -brick_half_height, Brick_Width * Global_Scale, brick_half_height);
