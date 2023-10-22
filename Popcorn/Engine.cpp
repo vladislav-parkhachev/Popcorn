@@ -121,11 +121,23 @@ void Drow_Frame(HDC hdc)
    //Drow_Level(hdc);
    //Drow_Platform(hdc, 50, 100);
 
+   XFORM xform, old_xform;
+
+   SetGraphicsMode(hdc, GM_ADVANCED);
+
+   xform.eM11 = (FLOAT)0.8660;
+   xform.eM12 = (FLOAT)0.5000;
+   xform.eM21 = (FLOAT)-0.5000;
+   xform.eM22 = (FLOAT)0.8660;
+   xform.eDx  = (FLOAT)100.0;
+   xform.eDy  = (FLOAT)100.0;
+   GetWorldTransform(hdc, &old_xform);
+   SetWorldTransform(hdc, &xform); 
 
    SelectObject(hdc, Brick_Blue_Pen);
    SelectObject(hdc, Brick_Blue_Brush);
-   Rectangle(hdc, 20 * Global_Scale, 100 * Global_Scale, (20 + 15) * Global_Scale, (100 + 7) * Global_Scale);
+   Rectangle(hdc, 0, 0, 15 * Global_Scale, 7 * Global_Scale);
 
-
+   SetWorldTransform(hdc, &old_xform);
 }
 //---------------------------------------------------------------------------------------------------
