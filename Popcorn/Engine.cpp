@@ -86,7 +86,7 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Brick_Letter(HDC hdc, int rotation_step)
+void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
 {// Drawing a falling letter
    XFORM xform, old_xform;
 
@@ -98,8 +98,8 @@ void Drow_Brick_Letter(HDC hdc, int rotation_step)
    xform.eM12 = (float)sin(rotation_angle);
    xform.eM21 = -(float)sin(rotation_angle);
    xform.eM22 = (float)cos(rotation_angle);
-   xform.eDx  = (FLOAT)100.0;
-   xform.eDy  = (FLOAT)100.0;
+   xform.eDx  = (float)x;
+   xform.eDy  = (float)y;
    GetWorldTransform(hdc, &old_xform);
    SetWorldTransform(hdc, &xform); 
 
@@ -153,6 +153,6 @@ void Drow_Frame(HDC hdc)
    int i;
 
    for (i = 0; i < 16; i++)
-      Drow_Brick_Letter(hdc, i);
+      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100 , i);
 }
 //---------------------------------------------------------------------------------------------------
