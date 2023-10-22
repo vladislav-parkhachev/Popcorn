@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <math.h>
 
 const int Global_Scale = 3;
 const int Brick_Width = 15;
@@ -87,12 +88,14 @@ void Drow_Brick_Letter(HDC hdc)
 {// Drawing a falling letter
    XFORM xform, old_xform;
 
+   double rotation_angle = 0.0;
+
    SetGraphicsMode(hdc, GM_ADVANCED);
 
-   xform.eM11 = (FLOAT)0.8660;
-   xform.eM12 = (FLOAT)0.5000;
-   xform.eM21 = (FLOAT)-0.5000;
-   xform.eM22 = (FLOAT)0.8660;
+   xform.eM11 = (float)cos(rotation_angle);
+   xform.eM12 = (float)sin(rotation_angle);
+   xform.eM21 = -(float)sin(rotation_angle);
+   xform.eM22 = (float)cos(rotation_angle);
    xform.eDx  = (FLOAT)100.0;
    xform.eDy  = (FLOAT)100.0;
    GetWorldTransform(hdc, &old_xform);
