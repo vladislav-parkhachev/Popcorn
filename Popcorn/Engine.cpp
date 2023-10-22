@@ -118,8 +118,14 @@ void Drow_Platform(HDC hdc, int x, int y)
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc)
 {// Rendering the game screen
-   Drow_Level(hdc);
-   Drow_Platform(hdc, 50, 100);
+   //Drow_Level(hdc);
+   //Drow_Platform(hdc, 50, 100);
+
+
+   SelectObject(hdc, Brick_Blue_Pen);
+   SelectObject(hdc, Brick_Blue_Brush);
+   Rectangle(hdc, 20 * Global_Scale, 100 * Global_Scale, (20 + 15) * Global_Scale, (100 + 7) * Global_Scale);
+
+
 }
 //---------------------------------------------------------------------------------------------------
-
