@@ -88,9 +88,12 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
 //---------------------------------------------------------------------------------------------------
 void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
 {// Drawing a falling letter
-   XFORM xform, old_xform;
+
+   double offset;
    double rotation_angle = 2.0 * M_PI / 16 * (double)rotation_step; // Converting a step to a rotation angle
    int brick_half_height = Brick_Height * Global_Scale / 2;
+   int back_part_offset;
+   XFORM xform, old_xform;
 
    SetGraphicsMode(hdc, GM_ADVANCED);
 
@@ -98,16 +101,17 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
    xform.eM12 = 0.0f;
    xform.eM21 = 0.0f;
    xform.eM22 = (float)cos(rotation_angle);
-   xform.eDx  = (float)x;
-   xform.eDy  = (float)y + (float)(brick_half_height);
+   xform.eDx = (float)x;
+   xform.eDy = (float)y + (float)(brick_half_height);
    GetWorldTransform(hdc, &old_xform);
-   SetWorldTransform(hdc, &xform); 
+   SetWorldTransform(hdc, &xform);
 
    SelectObject(hdc, Brick_Red_Pen);
    SelectObject(hdc, Brick_Red_Brush);
 
-   float offset = 3.0f * (1.0f - fabs(xform.eM22)) * Global_Scale;
-   Rectangle(hdc, 0, -brick_half_height - round(offset), Brick_Width * Global_Scale, brick_half_height - round(offset));
+   offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)Global_Scale;
+   back_part_offset = (int)round(offset);
+   Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * Global_Scale, brick_half_height - back_part_offset);
 
    SelectObject(hdc, Brick_Blue_Pen);
    SelectObject(hdc, Brick_Blue_Brush);
