@@ -86,7 +86,7 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
+void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotation_step)
 {// Drawing a falling letter
 
    double offset;
@@ -94,6 +94,9 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
    int brick_half_height = Brick_Height * Global_Scale / 2;
    int back_part_offset;
    XFORM xform, old_xform;
+
+   if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
+      return; // Falling letters can only be from bricks of this type
 
    if (rotation_step == 4 || rotation_step == 12)
    {
@@ -184,6 +187,9 @@ void Drow_Frame(HDC hdc)
    int i;
 
    for (i = 0; i < 16; i++)
-      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100 , i);
+   {
+      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, i);
+      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, i);
+   }   
 }
 //---------------------------------------------------------------------------------------------------
