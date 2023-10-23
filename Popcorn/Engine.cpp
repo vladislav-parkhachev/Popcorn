@@ -110,7 +110,7 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotati
 {// Drawing a falling letter
    bool switch_color;
    double offset;
-   double rotation_angle = 2.0 * M_PI / 16 * (double)rotation_step; // Converting a step to a rotation angle
+   double rotation_angle; // Converting a step to a rotation angle
    int brick_half_height = Brick_Height * Global_Scale / 2;
    int back_part_offset;
    HPEN front_pen, back_pen;
@@ -120,7 +120,15 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotati
    if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
       return; // Falling letters can only be from bricks of this type
 
-   if (rotation_step > 4 && rotation_step < 12)
+   // Adjust the rotation step and the rotation angle
+   rotation_step = rotation_step % 16;
+
+   if (rotation_step < 8)
+      rotation_angle = 2.0 * M_PI / 16 * (double)rotation_step;
+   else
+      rotation_angle = 2.0 * M_PI / 16 * (double)(8L - (long long)rotation_step);
+
+   if (rotation_step > 4 && rotation_step <= 12)
    {
       if (brick_type == EBT_Blue)
          switch_color = true;
