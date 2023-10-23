@@ -86,9 +86,29 @@ void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
       (x + Brick_Width) * Global_Scale, (y + Brick_Height) * Global_Scale, 2 * Global_Scale, 2 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
+void Set_Brick_Letter_Colors(bool is_switch_color, HPEN &front_pen, HBRUSH &front_brush, HPEN &back_pen, HBRUSH &back_brush)
+{
+   if (is_switch_color)
+   {
+      front_pen = Brick_Red_Pen;
+      front_brush = Brick_Red_Brush;
+
+      back_pen = Brick_Blue_Pen;
+      back_brush = Brick_Blue_Brush;
+   }
+   else
+   {
+      front_pen = Brick_Blue_Pen;
+      front_brush = Brick_Blue_Brush;
+
+      back_pen = Brick_Red_Pen;
+      back_brush = Brick_Red_Brush;
+   }
+}
+//---------------------------------------------------------------------------------------------------
 void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotation_step)
 {// Drawing a falling letter
-
+   bool switch_color;
    double offset;
    double rotation_angle = 2.0 * M_PI / 16 * (double)rotation_step; // Converting a step to a rotation angle
    int brick_half_height = Brick_Height * Global_Scale / 2;
@@ -103,41 +123,19 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotati
    if (rotation_step > 4 && rotation_step < 12)
    {
       if (brick_type == EBT_Blue)
-      {
-         front_pen = Brick_Red_Pen;
-         front_brush = Brick_Red_Brush;
-
-         back_pen = Brick_Blue_Pen;
-         back_brush = Brick_Blue_Brush;
-      }
+         switch_color = true;
       else
-      {
-         front_pen = Brick_Blue_Pen;
-         front_brush = Brick_Blue_Brush;
-
-         back_pen = Brick_Red_Pen;
-         back_brush = Brick_Red_Brush;
-      }
+         switch_color = false;
    }
    else
    {
       if (brick_type == EBT_Red)
-      {
-         front_pen = Brick_Red_Pen;
-         front_brush = Brick_Red_Brush;
-
-         back_pen = Brick_Blue_Pen;
-         back_brush = Brick_Blue_Brush;
-      }
+         switch_color = true;
       else
-      {
-         front_pen = Brick_Blue_Pen;
-         front_brush = Brick_Blue_Brush;
-
-         back_pen = Brick_Red_Pen;
-         back_brush = Brick_Red_Brush;
-      }
+         switch_color = false;;
    }
+
+   Set_Brick_Letter_Colors(switch_color, front_pen, front_brush, back_pen, back_brush);
 
    if (rotation_step == 4 || rotation_step == 12)
    {
