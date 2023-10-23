@@ -13,6 +13,12 @@ const int Level_Y_Offset = 6;
 const int Circle_Size = 7;
 int Inner_Width = 21;
 
+enum ELetter_Type
+{
+   ELT_None,
+   ELT_O
+};
+
 enum EBrick_Type
 {
    EBT_None,
@@ -107,7 +113,7 @@ void Set_Brick_Letter_Colors(bool is_switch_color, HPEN &front_pen, HBRUSH &fron
    }
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotation_step)
+void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
 {// Drawing a falling letter
    bool switch_color;
    double offset;
@@ -190,8 +196,11 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotati
 
       if (rotation_step > 4 && rotation_step <= 12)
       {
-         SelectObject(hdc, Letter_Pen);
-         Ellipse(hdc, 0 + 5 * Global_Scale, (- 5 * Global_Scale) / 2, 0 + 10 * Global_Scale, 5 * Global_Scale / 2);
+         if (letter_type == ELT_O)
+         {
+            SelectObject(hdc, Letter_Pen);
+            Ellipse(hdc, 0 + 5 * Global_Scale, (- 5 * Global_Scale) / 2, 0 + 10 * Global_Scale, 5 * Global_Scale / 2);
+         }
       }
       SetWorldTransform(hdc, &old_xform);
    }
@@ -241,8 +250,8 @@ void Drow_Frame(HDC hdc)
 
    for (i = 0; i < 16; i++)
    {
-      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, i);
-      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, i);
+      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
+      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
    }   
 }
 //---------------------------------------------------------------------------------------------------
