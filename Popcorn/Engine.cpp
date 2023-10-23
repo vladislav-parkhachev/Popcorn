@@ -95,29 +95,50 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, int rotation_step)
    int back_part_offset;
    XFORM xform, old_xform;
 
-   SetGraphicsMode(hdc, GM_ADVANCED);
+   if (rotation_step == 4 || rotation_step == 12)
+   {
+      // Drow the background
+      SelectObject(hdc, Brick_Red_Pen);
+      SelectObject(hdc, Brick_Red_Brush);
 
-   xform.eM11 = 1.0f;
-   xform.eM12 = 0.0f;
-   xform.eM21 = 0.0f;
-   xform.eM22 = (float)cos(rotation_angle);
-   xform.eDx = (float)x;
-   xform.eDy = (float)y + (float)(brick_half_height);
-   GetWorldTransform(hdc, &old_xform);
-   SetWorldTransform(hdc, &xform);
+      Rectangle(hdc, x, y + brick_half_height - Global_Scale, x + Brick_Width * Global_Scale, y + brick_half_height);
 
-   SelectObject(hdc, Brick_Red_Pen);
-   SelectObject(hdc, Brick_Red_Brush);
+      // Draw foreground
+      SelectObject(hdc, Brick_Blue_Pen);
+      SelectObject(hdc, Brick_Blue_Brush);
 
-   offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)Global_Scale;
-   back_part_offset = (int)round(offset);
-   Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * Global_Scale, brick_half_height - back_part_offset);
+      Rectangle(hdc, x, y + brick_half_height, x + Brick_Width * Global_Scale, y + brick_half_height + Global_Scale - 1);
+   }
+   else
+   {
+      SetGraphicsMode(hdc, GM_ADVANCED);
 
-   SelectObject(hdc, Brick_Blue_Pen);
-   SelectObject(hdc, Brick_Blue_Brush);
-   Rectangle(hdc, 0, -brick_half_height, Brick_Width * Global_Scale, brick_half_height);
+      // Setting up the matrix of the "rotation" of the letter
+      xform.eM11 = 1.0f;
+      xform.eM12 = 0.0f;
+      xform.eM21 = 0.0f;
+      xform.eM22 = (float)cos(rotation_angle);
+      xform.eDx = (float)x;
+      xform.eDy = (float)y + (float)(brick_half_height);
+      GetWorldTransform(hdc, &old_xform);
+      SetWorldTransform(hdc, &xform);
 
-   SetWorldTransform(hdc, &old_xform);
+      // Drow the background
+      SelectObject(hdc, Brick_Red_Pen);
+      SelectObject(hdc, Brick_Red_Brush);
+
+      offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)Global_Scale;
+      back_part_offset = (int)round(offset);
+      Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * Global_Scale, brick_half_height - back_part_offset);
+
+      // Draw foreground
+      SelectObject(hdc, Brick_Blue_Pen);
+      SelectObject(hdc, Brick_Blue_Brush);
+
+      Rectangle(hdc, 0, -brick_half_height, Brick_Width * Global_Scale, brick_half_height);
+
+      SetWorldTransform(hdc, &old_xform);
+   }
 }
 
 void Drow_Level(HDC hdc)
