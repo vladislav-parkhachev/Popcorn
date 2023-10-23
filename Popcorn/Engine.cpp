@@ -20,7 +20,7 @@ enum EBrick_Type
    EBT_Blue
 };
 
-HPEN Highlight_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+HPEN Highlight_Pen, Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
 char Level_01[14][12] =
@@ -50,6 +50,7 @@ void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &p
 void Init()
 {// Game settings at startup
    Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
+   Letter_Pen = CreatePen(PS_SOLID, Global_Scale, RGB(255, 255, 255));
 
    Create_Pen_Brush(255, 85, 85, Brick_Red_Pen, Brick_Red_Brush);
    Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
@@ -187,6 +188,11 @@ void Drow_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, int rotati
 
       Rectangle(hdc, 0, -brick_half_height, Brick_Width * Global_Scale, brick_half_height);
 
+      if (rotation_step > 4 && rotation_step <= 12)
+      {
+         SelectObject(hdc, Letter_Pen);
+         Ellipse(hdc, 0 + 5 * Global_Scale, (- 5 * Global_Scale) / 2, 0 + 10 * Global_Scale, 5 * Global_Scale / 2);
+      }
       SetWorldTransform(hdc, &old_xform);
    }
 }
