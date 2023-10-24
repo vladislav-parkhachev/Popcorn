@@ -65,7 +65,7 @@ void Redraw_Platform()
 {
    Prev_Platform_Rect = Platform_Rect;
 
-   Platform_Rect.left = Platform_X_Pos * Global_Scale;
+   Platform_Rect.left = (Level_X_Offset + Platform_X_Pos) * Global_Scale;
    Platform_Rect.top = Platform_Y_Pos * Global_Scale;
    Platform_Rect.right = Platform_Rect.left + Platform_Width * Global_Scale;
    Platform_Rect.bottom = Platform_Rect.top + Platform_Height * Global_Scale;
@@ -276,7 +276,7 @@ void Drow_Frame(HDC hdc)
 
    //Drow_Level(hdc);
    
-   Drow_Platform(hdc, Platform_X_Pos, Platform_Y_Pos);
+   Drow_Platform(hdc, Level_X_Offset + Platform_X_Pos, Platform_Y_Pos);
 
    //int i;
 
