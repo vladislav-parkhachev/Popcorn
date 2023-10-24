@@ -10,6 +10,8 @@ const int Cell_Width = 16;
 const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
+const int Level_Width = 14; // Level width in cells
+const int Level_Height = 12; // Level height in cells
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
@@ -19,6 +21,7 @@ int Platform_X_Pos = 0;
 int Platform_X_Step = Global_Scale;
 int Platform_Width = 28;
 RECT Platform_Rect, Prev_Platform_Rect;
+RECT Level_Rect;
 
 enum ELetter_Type
 {
@@ -37,7 +40,7 @@ HWND Hwnd;
 HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 HBRUSH BG_Brush, Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
-char Level_01[14][12] =
+char Level_01[Level_Width][Level_Height] =
 {
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -87,6 +90,11 @@ void Init_Engine(HWND hwnd)
    Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
    Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
    Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
+
+   Level_Rect.left = Level_X_Offset * Global_Scale;
+   Level_Rect.top = Level_Y_Offset * Global_Scale;
+   Level_Rect.right = Level_Rect.left + Cell_Width * Level_Width * Global_Scale;
+   Level_Rect.bottom = Level_Rect.top + Cell_Height * Level_Height * Global_Scale;
 
    Redraw_Platform();
 }
@@ -276,7 +284,9 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
 
    RECT intersection_rect;
 
-   //Drow_Level(hdc);
+   if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
+      Drow_Level(hdc);
+  
 
    if (IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
       Drow_Platform(hdc, Level_X_Offset + Platform_X_Pos, Platform_Y_Pos);
