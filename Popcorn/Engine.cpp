@@ -18,6 +18,7 @@ int Inner_Width = 21;
 int Platform_X_Pos = 0; 
 int Platform_X_Step = Global_Scale;
 int Platform_Width = 28;
+RECT Platform_Rect, Prev_Platform_Rect;
 
 enum ELetter_Type
 {
@@ -60,6 +61,19 @@ void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &p
    brush = CreateSolidBrush(RGB(r, g, b));
 }
 //---------------------------------------------------------------------------------------------------
+void Redraw_Platform()
+{
+   Prev_Platform_Rect = Platform_Rect;
+
+   Platform_Rect.left = Platform_X_Pos * Global_Scale;
+   Platform_Rect.top = Platform_Y_Pos * Global_Scale;
+   Platform_Rect.right = Platform_Rect.left + Platform_Width * Global_Scale;
+   Platform_Rect.bottom = Platform_Rect.top + Platform_Height * Global_Scale;
+
+   InvalidateRect(Hwnd, &Platform_Rect, FALSE);
+   InvalidateRect(Hwnd, &Prev_Platform_Rect, FALSE);
+}
+//---------------------------------------------------------------------------------------------------
 void Init_Engine(HWND hwnd)
 {// Game settings at startup
 
@@ -73,6 +87,8 @@ void Init_Engine(HWND hwnd)
    Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
    Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
    Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
+
+   Redraw_Platform();
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
@@ -232,7 +248,7 @@ void Drow_Platform(HDC hdc, int x, int y)
    SelectObject(hdc, BG_Pen);
    SelectObject(hdc, BG_Brush);
 
-   Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + Platform_Width) * Global_Scale, (y + Platform_Height) * Global_Scale);
+   Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
 
    // 1. Draw the side balls
    SelectObject(hdc, Platform_Circle_Pen);
@@ -271,29 +287,18 @@ void Drow_Frame(HDC hdc)
    //}   
 }
 //---------------------------------------------------------------------------------------------------
-void Redraw_Platform(EKey_Type key_type)
-{
-   RECT platform_rect;
-   platform_rect.left = Platform_X_Pos * Global_Scale;
-   platform_rect.top = Platform_Y_Pos * Global_Scale;
-   platform_rect.right = platform_rect.left + Platform_Width * Global_Scale;
-   platform_rect.bottom = platform_rect.top + Platform_Height * Global_Scale;
-
-   InvalidateRect(Hwnd, &platform_rect, FALSE);
-}
-//---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
 {
    switch (key_type)
    {
       case EKT_Left:
          Platform_X_Pos -= Platform_X_Step;
-         Redraw_Platform(key_type);
+         Redraw_Platform();
          break;
 
       case EKT_Right:
          Platform_X_Pos += Platform_X_Step;
-         Redraw_Platform(key_type);
+         Redraw_Platform();
          break;
 
       case EKT_Space:
