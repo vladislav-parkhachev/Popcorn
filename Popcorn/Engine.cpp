@@ -12,10 +12,12 @@ const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
+const int Platform_Height = 7;
 
 int Inner_Width = 21;
 int Platform_X_Pos = 0; 
 int Platform_X_Step = Global_Scale;
+int Platform_Width = 28;
 
 enum ELetter_Type
 {
@@ -263,9 +265,15 @@ void Drow_Frame(HDC hdc)
    //}   
 }
 //---------------------------------------------------------------------------------------------------
-int Redraw_Platform(EKey_Type key_type)
+void Redraw_Platform(EKey_Type key_type)
 {
-   InvalidateRect(Hwnd, );
+   RECT platform_rect;
+   platform_rect.left = Platform_X_Pos * Global_Scale;
+   platform_rect.top = Platform_Y_Pos * Global_Scale;
+   platform_rect.right = platform_rect.left + Platform_Width * Global_Scale;
+   platform_rect.bottom = platform_rect.top + Platform_Height * Global_Scale;
+
+   InvalidateRect(Hwnd, &platform_rect, FALSE);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
@@ -274,12 +282,12 @@ int On_Key_Down(EKey_Type key_type)
    {
       case EKT_Left:
          Platform_X_Pos -= Platform_X_Step;
-         Redraw_Platform();
+         Redraw_Platform(key_type);
          break;
 
       case EKT_Right:
          Platform_X_Pos += Platform_X_Step;
-         Redraw_Platform();
+         Redraw_Platform(key_type);
          break;
 
       case EKT_Space:
