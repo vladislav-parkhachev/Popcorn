@@ -271,7 +271,7 @@ void Drow_Platform(HDC hdc, int x, int y)
       (x + 4 + Inner_Width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Frame(HDC hdc)
+void Drow_Frame(HDC hdc, RECT &paint_area)
 {// Rendering the game screen
 
    //Drow_Level(hdc);
