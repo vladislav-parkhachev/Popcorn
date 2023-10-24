@@ -169,13 +169,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
        switch (wParam)
        {
        case VK_LEFT:
-          return 0;
+          return On_Key_Down();
 
        case VK_RIGHT:
-          return 0;
+          return On_Key_Down();
 
        case VK_SPACE:
-          return 0;
+          return On_Key_Down();
        }
        break;
     default:
