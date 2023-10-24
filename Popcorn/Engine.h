@@ -9,6 +9,6 @@ enum EKey_Type
    EKT_Space
 };
 
-void Init();
+void Init_Engine(HWND hwnd);
 void Drow_Frame(HDC hdc);
 int On_Key_Down(EKey_Type key_type);

@@ -96,8 +96,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   Init();
-
    RECT window_rect;
    window_rect.left = 0; // x left point
    window_rect.top = 0;  // y left point
@@ -111,6 +109,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    if (hWnd == 0)
       return FALSE;
+
+   Init_Engine(hWnd);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

@@ -30,6 +30,7 @@ enum EBrick_Type
    EBT_Blue
 };
 
+HWND Hwnd;
 HPEN Highlight_Pen, Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
@@ -57,8 +58,11 @@ void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &p
    brush = CreateSolidBrush(RGB(r, g, b));
 }
 //---------------------------------------------------------------------------------------------------
-void Init()
+void Init_Engine(HWND hwnd)
 {// Game settings at startup
+
+   Hwnd = hwnd;
+
    Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
    Letter_Pen = CreatePen(PS_SOLID, Global_Scale, RGB(255, 255, 255));
 
@@ -259,16 +263,23 @@ void Drow_Frame(HDC hdc)
    //}   
 }
 //---------------------------------------------------------------------------------------------------
+int Redraw_Platform(EKey_Type key_type)
+{
+   InvalidateRect(Hwnd, );
+}
+//---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
-{// Rendering the game screen
+{
    switch (key_type)
    {
       case EKT_Left:
          Platform_X_Pos -= Platform_X_Step;
+         Redraw_Platform();
          break;
 
       case EKT_Right:
          Platform_X_Pos += Platform_X_Step;
+         Redraw_Platform();
          break;
 
       case EKT_Space:
