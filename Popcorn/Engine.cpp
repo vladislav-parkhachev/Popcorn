@@ -255,7 +255,7 @@ void Drow_Frame(HDC hdc)
    }   
 }
 //---------------------------------------------------------------------------------------------------
-int On_Key_Down()
+int On_Key_Down(EKey_Type key_type)
 {// Rendering the game screen
 
    return 0;
