@@ -11,7 +11,11 @@ const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
 const int Circle_Size = 7;
+const int Platform_Y_Pos = 185;
+
 int Inner_Width = 21;
+int Platform_X_Pos = 0; 
+int Platform_X_Step = Global_Scale;
 
 enum ELetter_Type
 {
@@ -244,20 +248,32 @@ void Drow_Frame(HDC hdc)
 
    //Drow_Level(hdc);
    
-   //Drow_Platform(hdc, 50, 100);
+   Drow_Platform(hdc, Platform_X_Pos, Platform_Y_Pos);
 
-   int i;
+   //int i;
 
-   for (i = 0; i < 16; i++)
-   {
-      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
-      Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
-   }   
+   //for (i = 0; i < 16; i++)
+   //{
+   //   Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
+   //   Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
+   //}   
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
 {// Rendering the game screen
+   switch (key_type)
+   {
+      case EKT_Left:
+         Platform_X_Pos -= Platform_X_Step;
+         break;
 
+      case EKT_Right:
+         Platform_X_Pos += Platform_X_Step;
+         break;
+
+      case EKT_Space:
+         break;
+   }
    return 0;
 }
 //---------------------------------------------------------------------------------------------------
