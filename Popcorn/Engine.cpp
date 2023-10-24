@@ -274,10 +274,13 @@ void Drow_Platform(HDC hdc, int x, int y)
 void Drow_Frame(HDC hdc, RECT &paint_area)
 {// Rendering the game screen
 
-   //Drow_Level(hdc);
-   
-   Drow_Platform(hdc, Level_X_Offset + Platform_X_Pos, Platform_Y_Pos);
+   RECT intersection_rect;
 
+   //Drow_Level(hdc);
+
+   if (IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
+      Drow_Platform(hdc, Level_X_Offset + Platform_X_Pos, Platform_Y_Pos);
+   
    //int i;
 
    //for (i = 0; i < 16; i++)
