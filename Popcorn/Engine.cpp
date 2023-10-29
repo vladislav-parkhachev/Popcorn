@@ -351,8 +351,8 @@ void Move_Ball()
 {
    Prev_Ball_Rect = Ball_Rect;
 
-   Ball_X_Pos += Ball_X_Offset;
-   Ball_Y_Pos += Ball_Y_Offset;
+   Ball_X_Pos += (int)(Ball_Speed * cos(Ball_Direction));
+   Ball_Y_Pos -= (int)(Ball_Speed * sin(Ball_Direction));
 
    Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
    Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
