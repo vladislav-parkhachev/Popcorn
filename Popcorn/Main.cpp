@@ -176,6 +176,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
        case VK_SPACE:
           return On_Key_Down(EKT_Space);
+
+       case WM_TIMER: 
+          if (wParam == WM_USER + 1)
+          break;
        }
        break;
     default:
