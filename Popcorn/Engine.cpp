@@ -97,6 +97,8 @@ void Init_Engine(HWND hwnd)
    Level_Rect.bottom = Level_Rect.top + Cell_Height * Level_Height * Global_Scale;
 
    Redraw_Platform();
+
+   SetTimer(Hwnd, WM_USER + 1, 50, 0);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
