@@ -23,10 +23,11 @@ int Platform_X_Step = Global_Scale;
 int Platform_Width = 28;
 
 int Ball_X_Pos = 20, Ball_Y_Pos = 170;
+int Ball_X_Offset = 1, Ball_Y_Offset = -1;
 
 RECT Platform_Rect, Prev_Platform_Rect;
 RECT Level_Rect;
-RECT Ball_Rect;
+RECT Ball_Rect, Prev_Ball_Rect;
 
 enum ELetter_Type
 {
@@ -289,11 +290,6 @@ void Drow_Platform(HDC hdc, int x, int y)
 //---------------------------------------------------------------------------------------------------
 void Drow_Ball(HDC hdc, RECT& paint_area)
 {
-   Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-   Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
-   Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
-   Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
-
    SelectObject(hdc, Ball_Pen);
    SelectObject(hdc, Ball_Brush);
 
@@ -320,6 +316,7 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    //   Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
    //}   
 
+   //if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
       Drow_Ball(hdc, paint_area);
 }
 //---------------------------------------------------------------------------------------------------
@@ -343,9 +340,24 @@ int On_Key_Down(EKey_Type key_type)
    return 0;
 }
 //---------------------------------------------------------------------------------------------------
+void Move_Ball()
+{
+   Prev_Ball_Rect = Ball_Rect;
+
+   Ball_X_Pos += Ball_X_Offset;
+   Ball_Y_Pos += Ball_Y_Offset;
+
+   Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
+   Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+   Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
+   Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
+
+   InvalidateRect(Hwnd, &Ball_Rect, FALSE);
+}
+//---------------------------------------------------------------------------------------------------
 int On_Timer()
 {
-
+   Move_Ball();
    return 0;
 }
 //---------------------------------------------------------------------------------------------------
