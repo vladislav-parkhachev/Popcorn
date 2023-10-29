@@ -286,6 +286,17 @@ void Drow_Platform(HDC hdc, int x, int y)
       (x + 4 + Inner_Width - 1) * Global_Scale, (y + 1 + 5) * Global_Scale, 3 * Global_Scale, 3 * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
+void Drow_Ball(HDC hdc, RECT& paint_area)
+{
+   int x = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
+   int y = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+
+   SelectObject(hdc, Ball_Pen);
+   SelectObject(hdc, Ball_Brush);
+
+   Ellipse(hdc, x, y, x + Ball_Size * Global_Scale - 1, y + Ball_Size * Global_Scale - 1);
+}
+//---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc, RECT &paint_area)
 {// Rendering the game screen
 
@@ -306,13 +317,7 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    //   Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
    //}   
 
-   int x = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-   int y = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
-
-   SelectObject(hdc, Ball_Pen);
-   SelectObject(hdc, Ball_Brush);
-
-   Ellipse(hdc, x, y, x + Ball_Size * Global_Scale - 1, y + Ball_Size * Global_Scale - 1);
+   Drow_Ball(hdc, paint_area);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
