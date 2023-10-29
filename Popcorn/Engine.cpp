@@ -23,7 +23,7 @@ int Platform_X_Step = Global_Scale * 2;
 int Platform_Width = 28;
 
 int Ball_X_Pos = 20, Ball_Y_Pos = 170;
-int Ball_X_Offset = 2, Ball_Y_Offset = -2;
+double Ball_Speed = 3.0, Ball_Direction = M_PI_4;
 
 RECT Platform_Rect, Prev_Platform_Rect;
 RECT Level_Rect;
