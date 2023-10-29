@@ -98,7 +98,7 @@ void Init_Engine(HWND hwnd)
 
    Redraw_Platform();
 
-   SetTimer(Hwnd, WM_USER + 1, 50, 0);
+   SetTimer(Hwnd, Timer_ID, 50, 0);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
@@ -319,6 +319,12 @@ int On_Key_Down(EKey_Type key_type)
       case EKT_Space:
          break;
    }
+   return 0;
+}
+//---------------------------------------------------------------------------------------------------
+int On_Timer()
+{
+
    return 0;
 }
 //---------------------------------------------------------------------------------------------------
