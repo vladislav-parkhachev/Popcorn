@@ -26,6 +26,7 @@ int Ball_X_Pos = 20, Ball_Y_Pos = 170;
 
 RECT Platform_Rect, Prev_Platform_Rect;
 RECT Level_Rect;
+RECT Ball_Rect;
 
 enum ELetter_Type
 {
@@ -288,13 +289,15 @@ void Drow_Platform(HDC hdc, int x, int y)
 //---------------------------------------------------------------------------------------------------
 void Drow_Ball(HDC hdc, RECT& paint_area)
 {
-   int x = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-   int y = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+   Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
+   Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+   Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
+   Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
 
    SelectObject(hdc, Ball_Pen);
    SelectObject(hdc, Ball_Brush);
 
-   Ellipse(hdc, x, y, x + Ball_Size * Global_Scale - 1, y + Ball_Size * Global_Scale - 1);
+   Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc, RECT &paint_area)
@@ -317,7 +320,7 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    //   Drow_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
    //}   
 
-   Drow_Ball(hdc, paint_area);
+      Drow_Ball(hdc, paint_area);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
