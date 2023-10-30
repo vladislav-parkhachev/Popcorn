@@ -307,26 +307,26 @@ void Drow_Ball(HDC hdc, RECT& paint_area)
    Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 //---------------------------------------------------------------------------------------------------
-void Drow_Border(HDC hdc, RECT& paint_area)
+void Drow_Border(HDC hdc, int x, int y)
 {// Drow border level
 
    // Main line
    SelectObject(hdc, Border_Blue_Pen);
    SelectObject(hdc, Border_Blue_Brush);
 
-   Rectangle(hdc, 1 * Global_Scale, 0 * Global_Scale, 4 * Global_Scale, 4 * Global_Scale);
+   Rectangle(hdc, (x + 1) * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale,( y + 4) * Global_Scale);
 
    // White berth
    SelectObject(hdc, Border_White_Pen);
    SelectObject(hdc, Border_White_Brush);
 
-   Rectangle(hdc, 0 * Global_Scale, 0 * Global_Scale, 1 * Global_Scale, 4 * Global_Scale);
+   Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + 1) * Global_Scale, (y + 4) * Global_Scale);
 
    // Perforation
    SelectObject(hdc, BG_Pen);
    SelectObject(hdc, BG_Brush);
 
-   Rectangle(hdc, 2 * Global_Scale, 1 * Global_Scale, 3 * Global_Scale, 2 * Global_Scale);
+   Rectangle(hdc, (x + 2) * Global_Scale, (y + 1) * Global_Scale, (x + 3) * Global_Scale, (y + 2) * Global_Scale);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc, RECT &paint_area)
@@ -352,7 +352,9 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
       Drow_Ball(hdc, paint_area);
 
-   Drow_Border(hdc, paint_area);
+   int i;
+   for (i = 0; i < 50; i++)
+      Drow_Border(hdc, 2, 1 + i * 4);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
