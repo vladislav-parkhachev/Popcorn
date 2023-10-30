@@ -308,7 +308,7 @@ void Drow_Ball(HDC hdc, RECT& paint_area)
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Border(HDC hdc, int x, int y)
-{// Drow border level
+{// Drow element border level
 
    // Main line
    SelectObject(hdc, Border_Blue_Pen);
@@ -327,6 +327,20 @@ void Drow_Border(HDC hdc, int x, int y)
    SelectObject(hdc, BG_Brush);
 
    Rectangle(hdc, (x + 2) * Global_Scale, (y + 1) * Global_Scale, (x + 3) * Global_Scale, (y + 2) * Global_Scale);
+}
+//---------------------------------------------------------------------------------------------------
+void Drow_Bounds(HDC hdc, RECT& paint_area)
+{// Drow border leveln
+
+   int i;
+
+   // 1. Draw the left border
+   for (i = 0; i < 50; i++)
+      Drow_Border(hdc, 2, 1 + i * 4);
+
+   // 2. Draw the right border
+   for (i = 0; i < 50; i++)
+      Drow_Border(hdc, 201, 1 + i * 4);
 }
 //---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc, RECT &paint_area)
@@ -352,12 +366,7 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
       Drow_Ball(hdc, paint_area);
 
-   int i;
-   for (i = 0; i < 50; i++)
-      Drow_Border(hdc, 2, 1 + i * 4);
-
-   for (i = 0; i < 50; i++)
-      Drow_Border(hdc, 201, 1 + i * 4);
+   Drow_Bounds(hdc, paint_area)æ
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
