@@ -45,8 +45,8 @@ enum EBrick_Type
 };
 
 HWND Hwnd;
-HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Ball_Pen;
-HBRUSH BG_Brush, Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush, Ball_Brush;
+HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Ball_Pen, Border_Blue_Pen, Border_White_Pen;
+HBRUSH BG_Brush, Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush, Ball_Brush, Border_Blue_Brush, Border_White_Brush;
 
 char Level_01[Level_Width][Level_Height] =
 {
@@ -99,6 +99,8 @@ void Init_Engine(HWND hwnd)
    Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
    Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
    Create_Pen_Brush(255, 255, 255, Ball_Pen, Ball_Brush);
+   Create_Pen_Brush(85, 255, 255, Border_Blue_Pen, Border_Blue_Brush);
+   Create_Pen_Brush(255, 255, 255, Border_White_Pen, Border_White_Brush);
 
    Level_Rect.left = Level_X_Offset * Global_Scale;
    Level_Rect.top = Level_Y_Offset * Global_Scale;
@@ -305,6 +307,28 @@ void Drow_Ball(HDC hdc, RECT& paint_area)
    Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 //---------------------------------------------------------------------------------------------------
+void Drow_Border(HDC hdc, RECT& paint_area)
+{// Drow border level
+
+   // Main line
+   SelectObject(hdc, Border_Blue_Pen);
+   SelectObject(hdc, Border_Blue_Brush);
+
+   Rectangle(hdc, 1 * Global_Scale, 0 * Global_Scale, 4 * Global_Scale, 4 * Global_Scale);
+
+   // White berth
+   SelectObject(hdc, Border_White_Pen);
+   SelectObject(hdc, Border_White_Brush);
+
+   Rectangle(hdc, 0 * Global_Scale, 0 * Global_Scale, 1 * Global_Scale, 4 * Global_Scale);
+
+   // Perforation
+   SelectObject(hdc, BG_Pen);
+   SelectObject(hdc, BG_Brush);
+
+   Rectangle(hdc, 2 * Global_Scale, 1 * Global_Scale, 3 * Global_Scale, 2 * Global_Scale);
+}
+//---------------------------------------------------------------------------------------------------
 void Drow_Frame(HDC hdc, RECT &paint_area)
 {// Rendering the game screen
 
@@ -327,6 +351,8 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
 
    if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
       Drow_Ball(hdc, paint_area);
+
+   Drow_Border(hdc, paint_area);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
