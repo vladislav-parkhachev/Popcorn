@@ -16,7 +16,7 @@ const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
 const int Ball_Size = 4;
-const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width - Ball_Size;
+const int Max_X_Pos = 201 - Level_X_Offset;
 const int Max_Y_Pos = 199 - Ball_Size;
 
 int Inner_Width = 21;
@@ -314,7 +314,7 @@ void Drow_Border(HDC hdc, int x, int y)
    SelectObject(hdc, Border_Blue_Pen);
    SelectObject(hdc, Border_Blue_Brush);
 
-   Rectangle(hdc, (x + 1) * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale,( y + 4) * Global_Scale);
+   Rectangle(hdc, (x + 1) * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale, (y + 4) * Global_Scale);
 
    // White berth
    SelectObject(hdc, Border_White_Pen);
@@ -355,6 +355,9 @@ void Drow_Frame(HDC hdc, RECT &paint_area)
    int i;
    for (i = 0; i < 50; i++)
       Drow_Border(hdc, 2, 1 + i * 4);
+
+   for (i = 0; i < 50; i++)
+      Drow_Border(hdc, 201, 1 + i * 4);
 }
 //---------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
