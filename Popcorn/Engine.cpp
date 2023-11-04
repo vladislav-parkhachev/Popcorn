@@ -416,6 +416,7 @@ void Move_Ball()
 {
    int next_x_pos, next_y_pos;
    int max_x_pos = Max_X_Pos - Ball_Size;
+   int platform_y_pos = Platform_Y_Pos - Ball_Size;
 
    Prev_Ball_Rect = Ball_Rect;
 
@@ -445,6 +446,15 @@ void Move_Ball()
    {
       next_y_pos = Max_Y_Pos - (next_y_pos - Max_Y_Pos);
       Ball_Direction = M_PI + (M_PI - Ball_Direction);
+   }
+
+   if (next_y_pos > platform_y_pos)
+   {
+      if (next_x_pos >= Platform_X_Pos && next_x_pos <= Platform_X_Pos + Platform_Width)
+      {
+         next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
+         Ball_Direction = M_PI + (M_PI - Ball_Direction);
+      }
    }
 
    // Ball displacement
