@@ -415,6 +415,7 @@ int On_Key_Down(EKey_Type key_type)
 void Move_Ball()
 {
    int next_x_pos, next_y_pos;
+   int max_x_pos = Max_X_Pos - Ball_Size;
 
    Prev_Ball_Rect = Ball_Rect;
 
@@ -422,21 +423,21 @@ void Move_Ball()
    next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction));
 
    // Adjusting  the position of the ball when reflecting
-   if (next_x_pos < 0)
+   if (next_x_pos < Border_X_Offset)
    {
-      next_x_pos = -next_x_pos;
+      next_x_pos = Level_X_Offset - (next_x_pos - Level_X_Offset);
       Ball_Direction = M_PI - Ball_Direction;
    }
 
-   if (next_y_pos < Level_Y_Offset)
+   if (next_y_pos < Border_Y_Offset)
    {
       next_y_pos = Level_Y_Offset - (next_y_pos - Level_Y_Offset);
       Ball_Direction = -Ball_Direction;
    }  
 
-   if (next_x_pos > Max_X_Pos)
+   if (next_x_pos > max_x_pos)
    {
-      next_x_pos = Max_X_Pos - (next_x_pos - Max_X_Pos);
+      next_x_pos = max_x_pos - (next_x_pos - max_x_pos);
       Ball_Direction = M_PI - Ball_Direction;
    }
 
@@ -450,8 +451,8 @@ void Move_Ball()
    Ball_X_Pos = next_x_pos;
    Ball_Y_Pos = next_y_pos;
 
-   Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-   Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+   Ball_Rect.left = Ball_X_Pos * Global_Scale;
+   Ball_Rect.top = Ball_Y_Pos * Global_Scale;
    Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
    Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
 
