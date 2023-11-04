@@ -10,19 +10,19 @@ const int Cell_Width = 16;
 const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
-const int Level_Width = 14; // Level width in cells
-const int Level_Height = 12; // Level height in cells
+const int Level_Width = 12; // Level width in cells
+const int Level_Height = 14; // Level height in cells
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
 const int Ball_Size = 4;
-const int Max_X_Pos = 201 - Level_X_Offset;
+const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width;
 const int Max_Y_Pos = 199 - Ball_Size;
 const int Border_X_Offset = 6;
 const int Border_Y_Offset = 4;
 
 int Inner_Width = 21;
-int Platform_X_Pos = 0; 
+int Platform_X_Pos = Border_X_Offset; 
 int Platform_X_Step = Global_Scale * 2;
 int Platform_Width = 28;
 
@@ -50,7 +50,7 @@ HWND Hwnd;
 HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Ball_Pen, Border_Blue_Pen, Border_White_Pen;
 HBRUSH BG_Brush, Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush, Ball_Brush, Border_Blue_Brush, Border_White_Brush;
 
-char Level_01[Level_Width][Level_Height] =
+char Level_01[Level_Height][Level_Width] =
 {
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -260,8 +260,8 @@ void Drow_Level(HDC hdc)
 {// Output of all bricks of the level
    int i, j;
 
-   for (i = 0; i < 14; i++)
-      for (j = 0; j < 12; j++)
+   for (i = 0; i < Level_Height; i++)
+      for (j = 0; j < Level_Width; j++)
          Drow_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, (EBrick_Type)Level_01[i][j]);
 }
 //---------------------------------------------------------------------------------------------------
@@ -400,8 +400,8 @@ int On_Key_Down(EKey_Type key_type)
       case EKT_Right:
          Platform_X_Pos += Platform_X_Step;
 
-         if (Platform_X_Pos >= Max_X_Pos - Platform_Width)
-            Platform_X_Pos = Max_X_Pos - Platform_Width;
+         if (Platform_X_Pos >= Max_X_Pos - Platform_Width + 1)
+            Platform_X_Pos = Max_X_Pos - Platform_Width + 1;
 
          Redraw_Platform();
          break;
